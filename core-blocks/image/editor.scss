@@ -4,7 +4,6 @@
 
 	img {
 		display: block;
-		width: 100%;
 	}
 
 	&.is-resized img {
@@ -101,5 +100,45 @@
 
 	@include break-small() {
 		margin: -$border-width;
+	}
+}
+
+// Although the float markup is different in the editor compared to the frontend,
+// this CSS uses the same technique to allow floats in a wide images context.
+// That is, the block retains its centering and max-width, and a child inside
+// is floated instead of the block itself.
+[data-type="core/image"][data-align="center"],
+[data-type="core/image"][data-align="left"],
+[data-type="core/image"][data-align="right"] {
+	.editor-block-list__block-edit {
+		figure {
+			margin: 0;
+			display: table;
+		}
+
+		// This maps to the figcaption on the frontend.
+		.editor-rich-text {
+			display: table-caption;
+			caption-side: bottom;
+		}
+	}
+}
+
+[data-type="core/image"][data-align="wide"],
+[data-type="core/image"][data-align="full"] {
+	figure img {
+		width: 100%;
+	}
+}
+
+// This is similar to above but for resized unfloated images only, where the markup is different.
+[data-type="core/image"] .editor-block-list__block-edit figure.is-resized {
+	margin: 0;
+	display: table;
+
+	// This maps to the figcaption on the frontend.
+	.editor-rich-text {
+		display: table-caption;
+		caption-side: bottom;
 	}
 }
