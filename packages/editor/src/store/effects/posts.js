@@ -27,6 +27,7 @@ import {
 	getEditedPostContent,
 	getAutosave,
 	getCurrentPostType,
+	getEditedPostAttribute,
 	isEditedPostAutosaveable,
 	isEditedPostSaveable,
 	isEditedPostNew,
@@ -83,6 +84,7 @@ export const requestPostUpdate = async ( action, store ) => {
 	let toSend = {
 		...edits,
 		content: getEditedPostContent( state ),
+		title: getEditedPostAttribute( state, 'title' ),
 		id: post.id,
 	};
 
