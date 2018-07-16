@@ -1,5 +1,9 @@
 Gutenberg's deprecation policy is intended to support backwards-compatibility for two minor releases, when possible. The current deprecations are listed below and are grouped by _the version at which they will be removed completely_. If your plugin depends on these behaviors, you must update to the recommended alternative before the noted version.
 
+## 3.7.0
+- `wp.editor.getColorName` has been removed. Please use `wp.editor.getColorObjectByColorValue` instead.
+- `value` property in color objects passed by `wp.editor.withColors` has been removed. Please use color property instead.
+
 ## 3.6.0
 
  - `wp.editor.editorMediaUpload` has been removed. Please use `wp.editor.mediaUpload` instead.

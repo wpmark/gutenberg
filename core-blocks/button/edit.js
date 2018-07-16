@@ -35,8 +35,8 @@ const { getComputedStyle } = window;
 
 const FallbackStyles = withFallbackStyles( ( node, ownProps ) => {
 	const { textColor, backgroundColor } = ownProps;
-	const backgroundColorValue = backgroundColor && backgroundColor.value;
-	const textColorValue = textColor && textColor.value;
+	const backgroundColorValue = backgroundColor && backgroundColor.color;
+	const textColorValue = textColor && textColor.color;
 	//avoid the use of querySelector if textColor color is known and verify if node is available.
 	const textNode = ! textColorValue && node ? node.querySelector( '[contenteditable="true"]' ) : null;
 	return {
@@ -90,15 +90,15 @@ class ButtonEdit extends Component {
 						formattingControls={ [ 'bold', 'italic', 'strikethrough' ] }
 						className={ classnames(
 							'wp-block-button__link', {
-								'has-background': backgroundColor.value,
+								'has-background': backgroundColor.color,
 								[ backgroundColor.class ]: backgroundColor.class,
-								'has-text-color': textColor.value,
+								'has-text-color': textColor.color,
 								[ textColor.class ]: textColor.class,
 							}
 						) }
 						style={ {
-							backgroundColor: backgroundColor.value,
-							color: textColor.value,
+							backgroundColor: backgroundColor.color,
+							color: textColor.color,
 						} }
 						keepPlaceholderOnFocus
 					/>
@@ -107,12 +107,12 @@ class ButtonEdit extends Component {
 							title={ __( 'Color Settings' ) }
 							colorSettings={ [
 								{
-									value: backgroundColor.value,
+									value: backgroundColor.color,
 									onChange: setBackgroundColor,
 									label: __( 'Background Color' ),
 								},
 								{
-									value: textColor.value,
+									value: textColor.color,
 									onChange: setTextColor,
 									label: __( 'Text Color' ),
 								},
@@ -121,8 +121,8 @@ class ButtonEdit extends Component {
 							<ContrastChecker
 								{ ...{
 									isLargeText: true,
-									textColor: textColor.value,
-									backgroundColor: backgroundColor.value,
+									textColor: textColor.color,
+									backgroundColor: backgroundColor.color,
 									fallbackBackgroundColor,
 									fallbackTextColor,
 								} }
