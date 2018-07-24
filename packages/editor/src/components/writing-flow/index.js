@@ -231,7 +231,11 @@ class WritingFlow extends Component {
 				}
 
 				// Set in case the meta key doesn't get released.
-				this.isEntirelySelected = isEntirelySelected( target );
+				// TinyMCE makes sure all content of the editable is select,
+				// but on some browsers (safari and firefox) calling isEntirelySelected right way still returns false.
+				// So to make sure we are compatible with this browsers we set is entirely selected to true
+				// after the first meta+a keypress assuming TinyMCE will make all content entirely selected.
+				this.isEntirelySelected = target.isContentEditable ? true : isEntirelySelected( target );
 			}
 
 			return;
