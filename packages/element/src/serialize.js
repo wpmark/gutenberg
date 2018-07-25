@@ -445,6 +445,8 @@ export function renderElement( element, context = {} ) {
 				},
 				context
 			);
+		default:
+			throw new Error( tagName );
 	}
 
 	switch ( typeof tagName ) {
