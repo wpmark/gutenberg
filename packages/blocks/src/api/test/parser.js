@@ -21,7 +21,8 @@ import {
 	registerBlockType,
 	unregisterBlockType,
 	getBlockTypes,
-	setUnknownTypeHandlerName,
+	setUnstructuredTypeHandlerName,
+	setUnregisteredTypeHandlerName,
 } from '../registration';
 import { createBlock } from '../factory';
 import serialize from '../serializer';
@@ -56,7 +57,8 @@ describe( 'block parser', () => {
 	} );
 
 	afterEach( () => {
-		setUnknownTypeHandlerName( undefined );
+		setUnstructuredTypeHandlerName( undefined );
+		setUnregisteredTypeHandlerName( undefined );
 		getBlockTypes().forEach( ( block ) => {
 			unregisterBlockType( block.name );
 		} );
@@ -476,27 +478,27 @@ describe( 'block parser', () => {
 			expect( block.attributes ).toEqual( {} );
 		} );
 
-		it( 'should fall back to the unknown type handler for unknown blocks if present', () => {
-			registerBlockType( 'core/unknown-block', unknownBlockSettings );
-			setUnknownTypeHandlerName( 'core/unknown-block' );
+		it( 'should fall back to the unregistered type handler for unregistered blocks if present', () => {
+			registerBlockType( 'core/unregistered-block', unknownBlockSettings );
+			setUnregisteredTypeHandlerName( 'core/unregistered-block' );
 
 			const block = createBlockWithFallback( {
 				blockName: 'core/test-block',
 				innerHTML: 'Bananas',
 				attrs: { fruit: 'Bananas' },
 			} );
-			expect( block.name ).toBe( 'core/unknown-block' );
+			expect( block.name ).toBe( 'core/unregistered-block' );
 			expect( block.attributes.content ).toContain( 'wp:test-block' );
 		} );
 
-		it( 'should fall back to the unknown type handler if block type not specified', () => {
-			registerBlockType( 'core/unknown-block', unknownBlockSettings );
-			setUnknownTypeHandlerName( 'core/unknown-block' );
+		it( 'should fall back to the unstructured type handler if block type not specified', () => {
+			registerBlockType( 'core/unstructured-block', unknownBlockSettings );
+			setUnstructuredTypeHandlerName( 'core/unstructured-block' );
 
 			const block = createBlockWithFallback( {
 				innerHTML: 'content',
 			} );
-			expect( block.name ).toEqual( 'core/unknown-block' );
+			expect( block.name ).toEqual( 'core/unstructured-block' );
 			expect( block.attributes ).toEqual( { content: '<p>content</p>' } );
 		} );
 
@@ -634,7 +636,8 @@ describe( 'block parser', () => {
 		it( 'should ignore blocks with a bad namespace', () => {
 			registerBlockType( 'core/test-block', defaultBlockSettings );
 
-			setUnknownTypeHandlerName( 'core/unknown-block' );
+			setUnstructuredTypeHandlerName( 'core/unknown-block' );
+			setUnregisteredTypeHandlerName( 'core/unknown-block' );
 
 			const parsed = parse(
 				'<!-- wp:test-block {"fruit":"Bananas"} -->\nBananas\n<!-- /wp:test-block -->' +
@@ -649,7 +652,7 @@ describe( 'block parser', () => {
 			registerBlockType( 'core/test-block', defaultBlockSettings );
 			registerBlockType( 'core/unknown-block', unknownBlockSettings );
 
-			setUnknownTypeHandlerName( 'core/unknown-block' );
+			setUnstructuredTypeHandlerName( 'core/unknown-block' );
 
 			const parsed = parse(
 				'<!-- wp:test-block {"fruit":"Bananas"} -->\nBananas\n<!-- /wp:test-block -->' +
@@ -669,7 +672,7 @@ describe( 'block parser', () => {
 			registerBlockType( 'core/test-block', defaultBlockSettings );
 			registerBlockType( 'core/unknown-block', unknownBlockSettings );
 
-			setUnknownTypeHandlerName( 'core/unknown-block' );
+			setUnstructuredTypeHandlerName( 'core/unknown-block' );
 
 			const parsed = parse(
 				'<p>Cauliflower</p>' +
