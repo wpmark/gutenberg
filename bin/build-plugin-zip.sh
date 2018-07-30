@@ -121,6 +121,7 @@ zip -r gutenberg.zip \
 	gutenberg.php \
 	lib/*.php \
 	core-blocks/*/*.php \
+	packages/core-blocks/src/*/*.php \
 	post-content.js \
 	$vendor_scripts \
 	$build_files \

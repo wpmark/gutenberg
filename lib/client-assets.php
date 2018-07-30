@@ -374,11 +374,14 @@ function gutenberg_register_scripts_and_styles() {
 		array(
 			'editor',
 			'lodash',
+			'moment',
 			'wp-api-fetch',
+			'wp-autop',
 			'wp-blob',
 			'wp-blocks',
 			'wp-components',
 			'wp-compose',
+			'wp-data',
 			'wp-core-data',
 			'wp-editor',
 			'wp-element',
@@ -388,6 +391,7 @@ function gutenberg_register_scripts_and_styles() {
 			'wp-url',
 			'wp-viewport',
 		),
+
 		filemtime( gutenberg_dir_path() . 'build/core-blocks/index.js' ),
 		true
 	);
