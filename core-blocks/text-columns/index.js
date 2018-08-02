@@ -46,10 +46,10 @@ export const settings = {
 			selector: 'p',
 			query: {
 				children: {
-					source: 'children',
+					source: 'rich-text',
 				},
 			},
-			default: [ [], [] ],
+			default: [ {}, {} ],
 		},
 		columns: {
 			type: 'number',

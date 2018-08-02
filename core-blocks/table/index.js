@@ -65,16 +65,25 @@ export const settings = {
 	category: 'formatting',
 
 	attributes: {
-		content: {
+		rows: {
 			type: 'array',
-			source: 'children',
-			selector: 'table',
-			default: [
-				<tbody key="1">
-					<tr><td><br /></td><td><br /></td></tr>
-					<tr><td><br /></td><td><br /></td></tr>
-				</tbody>,
-			],
+			default: [],
+			source: 'query',
+			selector: 'tr',
+			query: {
+				cells: {
+					type: 'array',
+					default: [],
+					source: 'query',
+					selector: 'th,tr',
+					query: {
+						cell: {
+							type: 'object',
+							source: 'rich-text',
+						},
+					},
+				},
+			},
 		},
 		hasFixedLayout: {
 			type: 'boolean',
