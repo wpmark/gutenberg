@@ -109,6 +109,10 @@
 		width: $sidebar-width;
 		border-left: $border-width solid $light-gray-500;
 		@include slide_in_right;
+		// Keep it open on focus to avoid conflict with navigate-regions animation.
+		.is-focusing-regions & {
+			transform: translateX( 0% );
+		}
 	}
 }
 
