@@ -8,9 +8,11 @@ import { noop } from 'lodash';
  */
 import {
 	Component,
+	createContext,
 	Fragment,
-	RawHTML,
-} from '../';
+	StrictMode,
+} from '../react';
+import RawHTML from '../raw-html';
 import serialize, {
 	escapeAmpersand,
 	escapeQuotationMark,
@@ -254,10 +256,80 @@ describe( 'renderElement()', () => {
 		expect( result ).toBe( 'Hello' );
 	} );
 
+	it( 'renders StrictMode with undefined children', () => {
+		const result = renderElement( <StrictMode /> );
+
+		expect( result ).toBe( '' );
+	} );
+
+	it( 'renders StrictMode as its inner children', () => {
+		const result = renderElement( <StrictMode>Hello</StrictMode> );
+
+		expect( result ).toBe( 'Hello' );
+	} );
+
 	it( 'renders Fragment with undefined children', () => {
 		const result = renderElement( <Fragment /> );
 
 		expect( result ).toBe( '' );
+	} );
+
+	it( 'renders default value from Context API', () => {
+		const { Consumer } = createContext( {
+			value: 'default',
+		} );
+
+		const result = renderElement(
+			<Consumer>
+				{ ( context ) => context.value }
+			</Consumer>
+		);
+
+		expect( result ).toBe( 'default' );
+	} );
+
+	it( 'renders provided value through Context API', () => {
+		const { Consumer, Provider } = createContext( {
+			value: 'default',
+		} );
+
+		const result = renderElement(
+			<Provider value={ { value: 'provided' } }>
+				<Consumer>
+					{ ( context ) => context.value }
+				</Consumer>
+			</Provider>
+		);
+
+		expect( result ).toBe( 'provided' );
+	} );
+
+	it( 'renders proper value through Context API when multiple providers present', () => {
+		const { Consumer, Provider } = createContext( {
+			value: 'default',
+		} );
+
+		const result = renderElement(
+			<Fragment>
+				<Provider value={ { value: '1st provided' } }>
+					<Consumer>
+						{ ( context ) => context.value }
+					</Consumer>
+				</Provider>
+				{ '|' }
+				<Provider value={ { value: '2nd provided' } }>
+					<Consumer>
+						{ ( context ) => context.value }
+					</Consumer>
+				</Provider>
+				{ '|' }
+				<Consumer>
+					{ ( context ) => context.value }
+				</Consumer>
+			</Fragment>
+		);
+
+		expect( result ).toBe( '1st provided|2nd provided|default' );
 	} );
 
 	it( 'renders RawHTML as its unescaped children', () => {
