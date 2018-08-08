@@ -49,7 +49,20 @@ export const settings = {
 					source: 'rich-text',
 				},
 			},
-			default: [ {}, {} ],
+			default: [
+				{
+					children: {
+						text: '',
+						formats: [],
+					},
+				},
+				{
+					children: {
+						text: '',
+						formats: [],
+					},
+				},
+			],
 		},
 		columns: {
 			type: 'number',

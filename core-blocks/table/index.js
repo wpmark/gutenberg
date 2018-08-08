@@ -1,23 +1,14 @@
 /**
  * External dependencies
  */
-import { __ } from '@wordpress/i18n';
 import classnames from 'classnames';
 
 /**
  * WordPress dependencies
  */
-import { Fragment } from '@wordpress/element';
 import { getPhrasingContentSchema } from '@wordpress/blocks';
-import {
-	RichText,
-	InspectorControls,
-} from '@wordpress/editor';
-
-import {
-	PanelBody,
-	ToggleControl,
-} from '@wordpress/components';
+import { RichText } from '@wordpress/editor';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -25,7 +16,7 @@ import {
 import './editor.scss';
 import './style.scss';
 import './theme.scss';
-import TableBlock from './table-block';
+import edit from './edit';
 
 const tableContentSchema = {
 	tr: {
@@ -65,19 +56,23 @@ export const settings = {
 	category: 'formatting',
 
 	attributes: {
-		rows: {
+		hasFixedLayout: {
+			type: 'boolean',
+			default: false,
+		},
+		head: {
 			type: 'array',
 			default: [],
 			source: 'query',
-			selector: 'tr',
+			selector: 'thead tr',
 			query: {
 				cells: {
 					type: 'array',
 					default: [],
 					source: 'query',
-					selector: 'th,tr',
+					selector: 'td,th',
 					query: {
-						cell: {
+						content: {
 							type: 'object',
 							source: 'rich-text',
 						},
@@ -85,9 +80,45 @@ export const settings = {
 				},
 			},
 		},
-		hasFixedLayout: {
-			type: 'boolean',
-			default: false,
+		body: {
+			type: 'array',
+			default: [],
+			source: 'query',
+			selector: 'tbody tr',
+			query: {
+				cells: {
+					type: 'array',
+					default: [],
+					source: 'query',
+					selector: 'td,th',
+					query: {
+						content: {
+							type: 'object',
+							source: 'rich-text',
+						},
+					},
+				},
+			},
+		},
+		foot: {
+			type: 'array',
+			default: [],
+			source: 'query',
+			selector: 'tfoot tr',
+			query: {
+				cells: {
+					type: 'array',
+					default: [],
+					source: 'query',
+					selector: 'td,th',
+					query: {
+						content: {
+							type: 'object',
+							source: 'rich-text',
+						},
+					},
+				},
+			},
 		},
 	},
 
@@ -101,56 +132,59 @@ export const settings = {
 				type: 'raw',
 				selector: 'table',
 				schema: tableSchema,
+				// transform( node ) {
+				// 	const rows = Array.from( node.querySelectorAll( 'tr' ) );
+
+				// 	const block = createBlock( name, {}, rows.map( ( row ) => {
+				// 		const cells = Array.from( row.querySelectorAll( 'td,th' ) );
+
+				// 		return createBlock( rowName, {}, cells.map( ( cell ) => {
+				// 			const blockAttributes = getBlockAttributes( cellSettings, cell.outerHTML );
+
+				// 			return createBlock( cellName, blockAttributes );
+				// 		} ) );
+				// 	} ) );
+
+				// 	return block;
+				// },
 			},
 		],
 	},
 
-	edit( { attributes, setAttributes, isSelected, className } ) {
-		const { content, hasFixedLayout } = attributes;
-		const toggleFixedLayout = () => {
-			setAttributes( { hasFixedLayout: ! hasFixedLayout } );
-		};
-
-		const classes = classnames(
-			className,
-			{
-				'has-fixed-layout': hasFixedLayout,
-			},
-		);
-
-		return (
-			<Fragment>
-				<InspectorControls>
-					<PanelBody title={ __( 'Table Settings' ) } className="blocks-table-settings">
-						<ToggleControl
-							label={ __( 'Fixed width table cells' ) }
-							checked={ !! hasFixedLayout }
-							onChange={ toggleFixedLayout }
-						/>
-					</PanelBody>
-				</InspectorControls>
-				<TableBlock
-					onChange={ ( nextContent ) => {
-						setAttributes( { content: nextContent } );
-					} }
-					content={ content }
-					className={ classes }
-					isSelected={ isSelected }
-				/>
-			</Fragment>
-		);
-	},
+	edit,
 
 	save( { attributes } ) {
-		const { content, hasFixedLayout } = attributes;
-		const classes = classnames(
-			{
-				'has-fixed-layout': hasFixedLayout,
-			},
-		);
+		const { hasFixedLayout, head, body, foot } = attributes;
+		const classes = classnames( {
+			'has-fixed-layout': hasFixedLayout,
+		} );
+
+		const Part = ( { type, rows } ) => {
+			if ( ! rows.length ) {
+				return null;
+			}
+
+			const Tag = `t${ type }`;
+
+			return (
+				<Tag>
+					{ rows.map( ( { cells }, rowIndex ) =>
+						<tr key={ rowIndex }>
+							{ cells.map( ( { content }, cellIndex ) =>
+								<RichText.Content tagName="td" value={ content } key={ cellIndex } />
+							) }
+						</tr>
+					) }
+				</Tag>
+			);
+		};
 
 		return (
-			<RichText.Content tagName="table" className={ classes } value={ content } />
+			<table className={ classes }>
+				<Part type="head" rows={ head } />
+				<Part type="body" rows={ body } />
+				<Part type="foot" rows={ foot } />
+			</table>
 		);
 	},
 };

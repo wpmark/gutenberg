@@ -68,7 +68,7 @@ const settings = {
 };
 
 export class RichText extends Component {
-	constructor() {
+	constructor( { value } ) {
 		super( ...arguments );
 
 		this.onInit = this.onInit.bind( this );
@@ -95,6 +95,7 @@ export class RichText extends Component {
 
 		this.containerRef = createRef();
 		this.patterns = patterns.call( this );
+		this.savedContent = value;
 
 		this.state = {
 			selection: {},
@@ -603,8 +604,7 @@ export class RichText extends Component {
 				event.preventDefault();
 
 				if ( event.shiftKey || ! this.props.onSplit ) {
-					const record = richTextStructure.splice( this.getRecord(), undefined, 0, '\n' );
-					this.onChange( record );
+					this.editor.execCommand( 'InsertLineBreak', false, event );
 				} else {
 					this.splitContent();
 				}

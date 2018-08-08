@@ -18,6 +18,7 @@ import {
 } from '@wordpress/editor';
 import {
 	getPhrasingContentSchema,
+	richTextStructure,
 } from '@wordpress/blocks';
 
 /**
@@ -200,9 +201,7 @@ export const settings = {
 			migrate( attributes ) {
 				return {
 					...attributes,
-					content: [
-						<RawHTML key="html">{ attributes.content }</RawHTML>,
-					],
+					content: richTextStructure.create( attributes.content ),
 				};
 			},
 		},

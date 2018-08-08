@@ -1,0 +1,376 @@
+[
+    {
+        "clientId": "_clientId_0",
+        "name": "core/table",
+        "isValid": true,
+        "attributes": {
+            "hasFixedLayout": false,
+            "head": [],
+            "body": [
+                {
+                    "cells": [
+                        {
+                            "content": {
+                                "formats": [
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null
+                                ],
+                                "text": "Version"
+                            }
+                        },
+                        {
+                            "content": {
+                                "formats": [
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null
+                                ],
+                                "text": "Musician"
+                            }
+                        },
+                        {
+                            "content": {
+                                "formats": [
+                                    null,
+                                    null,
+                                    null,
+                                    null
+                                ],
+                                "text": "Date"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "cells": [
+                        {
+                            "content": {
+                                "formats": [
+                                    [
+                                        {
+                                            "type": "a",
+                                            "attributes": {
+                                                "href": "https://wordpress.org/news/2003/05/wordpress-now-available/"
+                                            }
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            "type": "a",
+                                            "attributes": {
+                                                "href": "https://wordpress.org/news/2003/05/wordpress-now-available/"
+                                            }
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            "type": "a",
+                                            "attributes": {
+                                                "href": "https://wordpress.org/news/2003/05/wordpress-now-available/"
+                                            }
+                                        }
+                                    ]
+                                ],
+                                "text": ".70"
+                            }
+                        },
+                        {
+                            "content": {
+                                "formats": [
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null
+                                ],
+                                "text": "No musician chosen."
+                            }
+                        },
+                        {
+                            "content": {
+                                "formats": [
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null
+                                ],
+                                "text": "May 27, 2003"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "cells": [
+                        {
+                            "content": {
+                                "formats": [
+                                    [
+                                        {
+                                            "type": "a",
+                                            "attributes": {
+                                                "href": "https://wordpress.org/news/2004/01/wordpress-10/"
+                                            }
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            "type": "a",
+                                            "attributes": {
+                                                "href": "https://wordpress.org/news/2004/01/wordpress-10/"
+                                            }
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            "type": "a",
+                                            "attributes": {
+                                                "href": "https://wordpress.org/news/2004/01/wordpress-10/"
+                                            }
+                                        }
+                                    ]
+                                ],
+                                "text": "1.0"
+                            }
+                        },
+                        {
+                            "content": {
+                                "formats": [
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null
+                                ],
+                                "text": "Miles Davis"
+                            }
+                        },
+                        {
+                            "content": {
+                                "formats": [
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null
+                                ],
+                                "text": "January 3, 2004"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "cells": [
+                        {
+                            "content": {
+                                "formats": [
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    [
+                                        {
+                                            "type": "a",
+                                            "attributes": {
+                                                "href": "https://codex.wordpress.org/WordPress_Versions"
+                                            }
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            "type": "a",
+                                            "attributes": {
+                                                "href": "https://codex.wordpress.org/WordPress_Versions"
+                                            }
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            "type": "a",
+                                            "attributes": {
+                                                "href": "https://codex.wordpress.org/WordPress_Versions"
+                                            }
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            "type": "a",
+                                            "attributes": {
+                                                "href": "https://codex.wordpress.org/WordPress_Versions"
+                                            }
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            "type": "a",
+                                            "attributes": {
+                                                "href": "https://codex.wordpress.org/WordPress_Versions"
+                                            }
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            "type": "a",
+                                            "attributes": {
+                                                "href": "https://codex.wordpress.org/WordPress_Versions"
+                                            }
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            "type": "a",
+                                            "attributes": {
+                                                "href": "https://codex.wordpress.org/WordPress_Versions"
+                                            }
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            "type": "a",
+                                            "attributes": {
+                                                "href": "https://codex.wordpress.org/WordPress_Versions"
+                                            }
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            "type": "a",
+                                            "attributes": {
+                                                "href": "https://codex.wordpress.org/WordPress_Versions"
+                                            }
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            "type": "a",
+                                            "attributes": {
+                                                "href": "https://codex.wordpress.org/WordPress_Versions"
+                                            }
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            "type": "a",
+                                            "attributes": {
+                                                "href": "https://codex.wordpress.org/WordPress_Versions"
+                                            }
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            "type": "a",
+                                            "attributes": {
+                                                "href": "https://codex.wordpress.org/WordPress_Versions"
+                                            }
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            "type": "a",
+                                            "attributes": {
+                                                "href": "https://codex.wordpress.org/WordPress_Versions"
+                                            }
+                                        }
+                                    ]
+                                ],
+                                "text": "Lots of versions skipped, see the full list"
+                            }
+                        },
+                        {
+                            "content": {
+                                "formats": [
+                                    null
+                                ],
+                                "text": "…"
+                            }
+                        },
+                        {
+                            "content": {
+                                "formats": [
+                                    null
+                                ],
+                                "text": "…"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "foot": []
+        },
+        "innerBlocks": [],
+        "originalContent": "<table class=\"wp-block-table\">\n\t<tbody>\n\t\t<tr>\n\t\t\t<td>Version</td>\n\t\t\t<td>Musician</td>\n\t\t\t<td>Date</td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td><a href=\"https://wordpress.org/news/2003/05/wordpress-now-available/\">.70</a></td>\n\t\t\t<td>No musician chosen.</td>\n\t\t\t<td>May 27, 2003</td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td><a href=\"https://wordpress.org/news/2004/01/wordpress-10/\">1.0</a></td>\n\t\t\t<td>Miles Davis</td>\n\t\t\t<td>January 3, 2004</td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td>Lots of versions skipped, see <a href=\"https://codex.wordpress.org/WordPress_Versions\">the full list</a></td>\n\t\t\t<td>&hellip;</td>\n\t\t\t<td>&hellip;</td>\n\t\t</tr>\n\t</tbody>\n</table>"
+    }
+]
