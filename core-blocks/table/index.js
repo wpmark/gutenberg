@@ -18,7 +18,7 @@ import './style.scss';
 import './theme.scss';
 import edit from './edit';
 
-const tableContentSchema = {
+const tableContentPasteSchema = {
 	tr: {
 		children: {
 			th: {
@@ -31,21 +31,44 @@ const tableContentSchema = {
 	},
 };
 
-const tableSchema = {
+const tablePasteSchema = {
 	table: {
 		children: {
 			thead: {
-				children: tableContentSchema,
+				children: tableContentPasteSchema,
 			},
 			tfoot: {
-				children: tableContentSchema,
+				children: tableContentPasteSchema,
 			},
 			tbody: {
-				children: tableContentSchema,
+				children: tableContentPasteSchema,
 			},
 		},
 	},
 };
+
+function getTablePartAttributeSchema( part ) {
+	return {
+		type: 'array',
+		default: [],
+		source: 'query',
+		selector: `t${ part } tr`,
+		query: {
+			cells: {
+				type: 'array',
+				default: [],
+				source: 'query',
+				selector: 'td,th',
+				query: {
+					content: {
+						type: 'object',
+						source: 'rich-text',
+					},
+				},
+			},
+		},
+	};
+}
 
 export const name = 'core/table';
 
@@ -60,66 +83,9 @@ export const settings = {
 			type: 'boolean',
 			default: false,
 		},
-		head: {
-			type: 'array',
-			default: [],
-			source: 'query',
-			selector: 'thead tr',
-			query: {
-				cells: {
-					type: 'array',
-					default: [],
-					source: 'query',
-					selector: 'td,th',
-					query: {
-						content: {
-							type: 'object',
-							source: 'rich-text',
-						},
-					},
-				},
-			},
-		},
-		body: {
-			type: 'array',
-			default: [],
-			source: 'query',
-			selector: 'tbody tr',
-			query: {
-				cells: {
-					type: 'array',
-					default: [],
-					source: 'query',
-					selector: 'td,th',
-					query: {
-						content: {
-							type: 'object',
-							source: 'rich-text',
-						},
-					},
-				},
-			},
-		},
-		foot: {
-			type: 'array',
-			default: [],
-			source: 'query',
-			selector: 'tfoot tr',
-			query: {
-				cells: {
-					type: 'array',
-					default: [],
-					source: 'query',
-					selector: 'td,th',
-					query: {
-						content: {
-							type: 'object',
-							source: 'rich-text',
-						},
-					},
-				},
-			},
-		},
+		head: getTablePartAttributeSchema( 'head' ),
+		body: getTablePartAttributeSchema( 'body' ),
+		foot: getTablePartAttributeSchema( 'foot' ),
 	},
 
 	supports: {
@@ -131,22 +97,7 @@ export const settings = {
 			{
 				type: 'raw',
 				selector: 'table',
-				schema: tableSchema,
-				// transform( node ) {
-				// 	const rows = Array.from( node.querySelectorAll( 'tr' ) );
-
-				// 	const block = createBlock( name, {}, rows.map( ( row ) => {
-				// 		const cells = Array.from( row.querySelectorAll( 'td,th' ) );
-
-				// 		return createBlock( rowName, {}, cells.map( ( cell ) => {
-				// 			const blockAttributes = getBlockAttributes( cellSettings, cell.outerHTML );
-
-				// 			return createBlock( cellName, blockAttributes );
-				// 		} ) );
-				// 	} ) );
-
-				// 	return block;
-				// },
+				schema: tablePasteSchema,
 			},
 		],
 	},

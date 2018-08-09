@@ -8,9 +8,15 @@ import { times } from 'lodash';
  * WordPress dependencies
  */
 import { Fragment, Component } from '@wordpress/element';
-import { InspectorControls, RichText } from '@wordpress/editor';
-import { PanelBody, ToggleControl, TextControl, Button } from '@wordpress/components';
+import { InspectorControls, BlockControls, RichText } from '@wordpress/editor';
 import { __ } from '@wordpress/i18n';
+import {
+	PanelBody,
+	ToggleControl,
+	TextControl,
+	Button,
+	Toolbar,
+} from '@wordpress/components';
 
 export default class extends Component {
 	constructor() {
@@ -22,11 +28,26 @@ export default class extends Component {
 		this.onChangeInitialColumnCount = this.onChangeInitialColumnCount.bind( this );
 		this.onChangeInitialRowCount = this.onChangeInitialRowCount.bind( this );
 		this.renderPart = this.renderPart.bind( this );
+		this.getTableControls = this.getTableControls.bind( this );
+		this.createOnDeleteRow = this.createOnDeleteRow.bind( this );
+		this.createOnDeleteColumn = this.createOnDeleteColumn.bind( this );
+		this.createOnInsertRow = this.createOnInsertRow.bind( this );
+		this.createOnInsertColumn = this.createOnInsertColumn.bind( this );
+		this.createOnFocus = this.createOnFocus.bind( this );
 
 		this.state = {
 			initialRowCount: 2,
 			initialColumnCount: 2,
+			selectedCell: null,
 		};
+	}
+
+	onChangeInitialColumnCount( initialColumnCount ) {
+		this.setState( { initialColumnCount } );
+	}
+
+	onChangeInitialRowCount( initialRowCount ) {
+		this.setState( { initialRowCount } );
 	}
 
 	onCreateTable() {
@@ -76,12 +97,122 @@ export default class extends Component {
 		};
 	}
 
-	onChangeInitialColumnCount( initialColumnCount ) {
-		this.setState( { initialColumnCount } );
+	createOnInsertRow( { part, rowIndex }, delta ) {
+		const { attributes, setAttributes } = this.props;
+		const cellCount = attributes[ part ][ rowIndex ].cells.length;
+
+		rowIndex += delta;
+
+		return () => {
+			setAttributes( {
+				[ part ]: [
+					...attributes[ part ].slice( 0, rowIndex ),
+					{
+						cells: times( cellCount, () => ( {
+							content: {
+								formats: [],
+								text: '',
+							},
+						} ) ),
+					},
+					...attributes[ part ].slice( rowIndex ),
+				],
+			} );
+		};
 	}
 
-	onChangeInitialRowCount( initialRowCount ) {
-		this.setState( { initialRowCount } );
+	createOnDeleteRow( { part, rowIndex } ) {
+		const { attributes, setAttributes } = this.props;
+
+		return () => {
+			setAttributes( {
+				[ part ]: attributes[ part ].filter( ( row, index ) => index !== rowIndex ),
+			} );
+		};
+	}
+
+	createOnInsertColumn( { part, cellIndex }, delta ) {
+		const { attributes, setAttributes } = this.props;
+
+		cellIndex += delta;
+
+		return () => {
+			setAttributes( {
+				[ part ]: attributes[ part ].map( ( row ) => ( {
+					cells: [
+						...row.cells.slice( 0, cellIndex ),
+						{
+							content: {
+								formats: [],
+								text: '',
+							},
+						},
+						...row.cells.slice( cellIndex ),
+					],
+				} ) ),
+			} );
+		};
+	}
+
+	createOnDeleteColumn( { part, cellIndex } ) {
+		const { attributes, setAttributes } = this.props;
+
+		return () => {
+			setAttributes( {
+				[ part ]: attributes[ part ].map( ( row ) => ( {
+					cells: row.cells.filter( ( cell, index ) => index !== cellIndex ),
+				} ) ),
+			} );
+		};
+	}
+
+	createOnFocus( selectedCell ) {
+		return () => {
+			this.setState( { selectedCell } );
+		};
+	}
+
+	getTableControls() {
+		const { selectedCell } = this.state;
+
+		return [
+			{
+				icon: 'table-row-before',
+				title: __( 'Add Row Before' ),
+				isDisabled: ! selectedCell,
+				onClick: selectedCell && this.createOnInsertRow( selectedCell ),
+			},
+			{
+				icon: 'table-row-after',
+				title: __( 'Add Row After' ),
+				isDisabled: ! selectedCell,
+				onClick: selectedCell && this.createOnInsertRow( selectedCell, 1 ),
+			},
+			{
+				icon: 'table-row-delete',
+				title: __( 'Delete Row' ),
+				isDisabled: ! selectedCell,
+				onClick: selectedCell && this.createOnDeleteRow( selectedCell ),
+			},
+			{
+				icon: 'table-col-before',
+				title: __( 'Add Column Before' ),
+				isDisabled: ! selectedCell,
+				onClick: selectedCell && this.createOnInsertColumn( selectedCell ),
+			},
+			{
+				icon: 'table-col-after',
+				title: __( 'Add Column After' ),
+				isDisabled: ! selectedCell,
+				onClick: selectedCell && this.createOnInsertColumn( selectedCell, 1 ),
+			},
+			{
+				icon: 'table-col-delete',
+				title: __( 'Delete Column' ),
+				isDisabled: ! selectedCell,
+				onClick: selectedCell && this.createOnDeleteColumn( selectedCell ),
+			},
+		];
 	}
 
 	renderPart( { type, rows } ) {
@@ -95,19 +226,24 @@ export default class extends Component {
 			<Tag>
 				{ rows.map( ( { cells }, rowIndex ) =>
 					<tr key={ rowIndex }>
-						{ cells.map( ( { content }, cellIndex ) =>
-							<td key={ cellIndex }>
-								<RichText
-									value={ content }
-									onChange={ this.createOnChange( {
-										part: type,
-										rowIndex,
-										cellIndex,
-									} ) }
-									placeholder={ __( 'Add cell content' ) }
-								/>
-							</td>
-						) }
+						{ cells.map( ( { content }, cellIndex ) => {
+							const id = {
+								part: type,
+								rowIndex,
+								cellIndex,
+							};
+
+							return (
+								<td key={ cellIndex }>
+									<RichText
+										value={ content }
+										onChange={ this.createOnChange( id ) }
+										placeholder={ __( 'Add cell content' ) }
+										unstableOnFocus={ this.createOnFocus( id ) }
+									/>
+								</td>
+							);
+						} ) }
 					</tr>
 				) }
 			</Tag>
@@ -147,6 +283,9 @@ export default class extends Component {
 
 		return (
 			<Fragment>
+				<BlockControls>
+					<Toolbar controls={ this.getTableControls() } />
+				</BlockControls>
 				<InspectorControls>
 					<PanelBody title={ __( 'Table Settings' ) } className="blocks-table-settings">
 						<ToggleControl
