@@ -42,10 +42,14 @@
 		stroke: $dark-gray-900 !important;
 		fill: $dark-gray-900 !important;
 	}
+
+	// Don't wrap text.
+	white-space: nowrap;
 }
 
 .components-menu-item__shortcut {
 	opacity: 0.5;
 	margin-right: 0;
 	margin-left: auto;
+	padding-left: 8px;
 }
